@@ -60,6 +60,8 @@ app.get("/consultar", function(req, res){
 
 
 // app.get("/editar/:id", function(req, res){
+app.get("/editar", function(req, res){
+    res.render("atualizar");
 //     const agendamentoId = req.params.id;
 
 //     db.collection('agendamentos').doc(agendamentoId).get()
@@ -74,7 +76,7 @@ app.get("/consultar", function(req, res){
 //             console.log("Erro ao recuperar agendamento:", error);
 //             res.status(500).send("Erro ao recuperar agendamento");
 //         });
-// });
+});
 
 // app.post("/atualizar", function(req, res){
 //     const agendamentoId = req.body.id;

@@ -1,4 +1,8 @@
-<div class="container">
+<div class="col-1">
+  &nbsp;
+</div>
+<div class="col bg-white">
+
   <br>
   <h4>Cadastrar - Agendamento de Potenciais Clientes</h4>
   <p>Sistema utilizado para cadastrar clientes.</p>
@@ -8,18 +12,24 @@
       <label for="nome" class="form-label">Nome: </label>
       <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp">
     </div>
-    {{!-- nome, idade, sexo endereco --}}
-    <div class="mb-3">
-      <label for="idade" class="form-label">Idade: </label>
-      <input type="text" class="form-control" id="idade" name="idade" aria-describedby="emailHelp">
-    </div>
+    
+    <div class="row">
+      <div class="col">
+        <div class="mb-3">
+          <label for="idade" class="form-label">Idade: </label>
+          <input type="text" class="form-control" id="idade" name="idade" aria-describedby="emailHelp">
+        </div>
+      </div>
 
-    <div class="mb-3">
-      <label for="sexo" class="form-label">Sexo: </label>
-      <select class="form-select" name="sexo" id="sexo">
-        <option value="Feminino">Feminino</option>
-        <option value="Masculino">Masculino</option>
-      </select>
+      <div class="col">
+        <div class="mb-3">
+          <label for="sexo" class="form-label">Sexo: </label>
+          <select class="form-select" name="sexo" id="sexo">
+            <option value="Feminino">Feminino</option>
+            <option value="Masculino">Masculino</option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <div class="mb-3">
@@ -58,3 +68,5 @@
     </div>
   </form>
 </div>
+
+

@@ -11,8 +11,28 @@
             &nbsp;
         </div>
     </div>
-    
-    <table class="table text-center">
+
+   <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img id="imagem-servico" src="/static/imgs/imgs_bnc/{{imagem}}" class="img-fluid rounded-start" alt="{{imagem}}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div class="d-flex justify-content-end mb-3">
+                        <a href="/editar/{{id}}" class="btn btn-primary me-2">Editar</a>
+                        <a href="/excluir/{{id}}" class="btn btn-danger">Excluir</a>
+                    </div>
+                    <h5 class="card-title text-warning">{{nome}}</h5>
+                    <a href="#" class="text-decoration-none text-warning">Descrição</a>
+                    <p class="card-text text-dark mt-2">{{descricao}}</p>
+                    <p class="card-text text-muted text-end mt-2">R$ {{preco}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{!-- <table class="table text-center">
         <thead style="background-color: #000000" class="text-white">
             <tr> 
                 <th>Nome</th>
@@ -40,5 +60,5 @@
                 {{/each}}
             </tr>
         </tbody>
-    </table>
+    </table> --}}
 </div>

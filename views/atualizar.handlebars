@@ -1,51 +1,75 @@
-<div class="container text-center">
-    <div class="row">
-        <div class="col-1">
-            &nbsp;
+<div class="col-1">
+    &nbsp;
+</div>
+<div class="col bg-white">
+    <div class="col-1">
+        &nbsp;
+    </div>
+    <p class="text-start fs-5">Editar - Agendamento de Potenciais Clientes</p>
+    <p class="text-start fs-6">Sistema Utilizado para agendamento de serviços.</p>
+
+    <form action="/cadastrar" method="POST">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome: </label>
+            <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp">
         </div>
-        <div class="col bg-white">
-            <div class="col-1">
-                &nbsp;
+        
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="idade" class="form-label">Idade: </label>
+                    <input type="text" class="form-control" id="idade" name="idade" aria-describedby="emailHelp">
+                </div>
             </div>
-            <p class="text-start fs-5">Editar - Agendamento de Potenciais Clientes</p>
-            <p class="text-start fs-6">Sistema Utilizado para agendamento de serviços.</p>
-            <p>
-            <form action="/atualizar" method="POST">
-                <div class="mb-3 text-start">
-                    <input type="hidden" name="id" class="form-control" value="{{agendamentos.id}}">
-                    <label class="form-label">Nome:</label>
-                    <input type="text" name="nome" class="form-control" value="{{agendamentos.data.nome}}">
-                </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Telefone:</label>
-                    <input type="number" name="telefone" class="form-control" value="{{agendamentos.data.telefone}}">
-                </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Origem:</label>
-                    <select name="origem" class="form-select" aria-label="Default select example">
-                        <option value="Celular">Celular</option>
-                        <option value="Telefone">Telefone</option>
-                        <option value="Whatsapp">Whatsapp</option>
+
+            <div class="col">
+                <div class="mb-3">
+                    <label for="sexo" class="form-label">Sexo: </label>
+                    <select class="form-select" name="sexo" id="sexo">
+                        <option value="Feminino">Feminino</option>
+                        <option value="Masculino">Masculino</option>
                     </select>
                 </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Data do Contato:</label>
-                    <input type="date" name="data_contato" class="form-control" id="data_contato"
-                        aria-describedby="emailHelp" value="{{agendamentos.data.data_contato}}">
-                </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Observação:</label>
-                    <textarea name="observacao" class="form-control"
-                        style="height: 100px">{{agendamentos.data.observacao}}</textarea>
-                </div>
-                <div class="mb-3 text-start">
-                    <button type="submit" class="btn text-light" style="background-color:dodgerblue;">Atualizar</button>
-                </div>
-            </form>
-            </p>
+            </div>
         </div>
-        <div class="col-1">
-            &nbsp;
+
+        <div class="mb-3">
+            <div class="row">
+                <div class="col">
+                    <label for="cep" class="form-label">CEP: </label>
+                    <input type="text" class="form-control" id="cep" name="cep" aria-describedby="emailHelp">
+                </div>
+
+                <div class="col">
+                    <label for="uf" class="form-label">UF: </label>
+                    <select class="form-select" name="uf" id="uf">
+                        <option value="SP">SP</option>
+                        <option value="RJ">RJ</option>
+                    </select>
+                </div>
+            </div>     
         </div>
-    </div>
+
+        <div class="mb-3">
+            <div class="row">
+                <div class="col">
+                    <label for="endereco" class="form-label">Endereço: </label>
+                    <input type="text" class="form-control" id="endereco" name="endereco" aria-describedby="emailHelp">
+                </div>
+
+                <div class="col">
+                    <label for="numero" class="form-label">Número: </label>
+                    <input type="text" class="form-control" id="numero" name="numero" aria-describedby="emailHelp">
+                </div>
+            </div>     
+        </div>
+
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-dark">Cadastrar</button>
+        </div>
+    </form>
 </div>
+<div class="col-1">
+    &nbsp;
+</div>
+
