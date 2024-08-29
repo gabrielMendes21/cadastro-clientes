@@ -1,0 +1,38 @@
+<div class="container">
+  <br>
+  <h4>Cadastrar - Agendamento de Potenciais Clientes</h4>
+  <p>Sistema utilizado para agendamento de serviços.</p>
+
+  <form action="/cadastrar" method="POST">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Nome: </label>
+      <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp">
+    </div>
+    
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Telefone: </label>
+      <input type="tel" class="form-control" id="telefone" name="telefone" aria-describedby="emailHelp">
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Origem: </label>
+      <select class="form-select" name="origem" id="origem">
+        <option value="Celular">Celular</option>
+        <option value="Telefone">Telefone</option>
+        <option value="Whatsapp">Whatsapp</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Data do contato: </label>
+      <input type="date" class="form-control" id="data_contato" name="data_contato" aria-describedby="emailHelp">
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label">Observação: </label>
+      <textarea class="form-control" id="observacao" name="observacao" rows="3"></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+  </form>
+</div>

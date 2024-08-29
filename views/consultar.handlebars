@@ -1,0 +1,35 @@
+<div class="container">
+    <br>
+    <h4>Consultar - Agendamento de Potenciais Clientes</h4>
+    <p>Listagem dos agendamentos cadastrados:</p>
+
+    <table class="table text-center">
+        <thead style="background-color: #0d6efd" class="text-white">
+            <tr> 
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Origem</th>
+                <th>Data do Contato</th>
+                <th>Observação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {{#each agendamentos}}
+                    <tr>
+                        <td>{{this.data.nome}}</td>
+                        <td>{{this.data.telefone}}</td>
+                        <td>{{this.data.origem}}</td>
+                        <td>{{this.data.data_contato}}</td>
+                        <td>{{this.data.observacao}}</td>
+                        <td>
+                            <button type="button" class="btn text-light" style="background-color:dodgerblue; color: white"><a href="/editar/{{this.id}}">Editar</a></button>
+                            <button type="button" class="btn text-light" style="background-color: darkred; color: white"><a href="/excluir/{{this.id}}">Excluir</a></button>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tr>
+        </tbody>
+    </table>
+</div>
