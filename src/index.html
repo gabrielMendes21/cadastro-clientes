@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário teste</title>
+</head>
+<body>
+    <form >
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome">
+        
+        <label for="idade">Idade</label>
+        <input type="text" id="idade" name="idade">
+
+        <label for="sexo">Sexo</label>
+        <input type="text" id="sexo" name="sexo">
+
+        <label for="cep">CEP</label>
+        <input type="number" id="cep" name="cep">
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        const form = document.querySelector("form");
+        const CEPInput = document.querySelector("#cep");
+
+        // Fazer a requisição para o ViaCEP e armazenar a resposta no cache do servidor
+        CEPInput.addEventListener("change", () => {
+            fetch(`https://viacep.com.br/ws/${CEPInput.value}/json/`)
+                .then(response => response.json())
+                .then(data => console.log(data)) // Fazer uma requisição para o servidor para armazenar a resposta em cache
+                .catch(err => console.log(err)); // Mostrar um mensagem de erro abaixo do input do CEP
+        })
+
+        // Enviar o formulário
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            console.log("Formulário enviado");
+        })
+    </script>
+</body>
+</html>
