@@ -30,6 +30,7 @@ app.set("view engine", "handlebars")
 // app.use(bodyParser.urlencoded({extended: false}))
 // app.use(bodyParser.json())
 
+//rota da page inicial
 app.get("/", function(req, res){
     res.render("index")
 })
@@ -47,6 +48,7 @@ app.get("/", function(req, res){
 //     })
 // })
 
+//rota da page de visualização de clientes
 app.get("/consultar", function(req, res){
     res.render("consultar");
 //     db.collection('agendamentos').get()
@@ -68,6 +70,8 @@ app.get("/consultar", function(req, res){
 
 
 // app.get("/editar/:id", function(req, res){
+
+//rota da page de edição de dados
 app.get("/editar", function(req, res){
     res.render("atualizar");
 //     const agendamentoId = req.params.id;
@@ -121,6 +125,7 @@ app.get("/editar", function(req, res){
 //             res.status(500).send("Erro ao deletar documento");
 //         });
 // });
+
 
 app.listen(8081, function(){
     console.log("Servidor ativo!")
