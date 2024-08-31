@@ -13,6 +13,14 @@ const handlebars = require("express-handlebars").engine
 
 // const db = getFirestore()
 
+
+const path = require('path');
+
+// Servir arquivos estáticos da pasta "public"
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
 app.engine("handlebars", handlebars({
     defaultLayout: "main"
 }))
