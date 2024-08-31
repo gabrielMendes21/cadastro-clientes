@@ -14,10 +14,16 @@ app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "index.html"));
 })
 
+// Lidar com o envio do formulário
 app.post("/cadastrar", (req, res) => {
     const data = req.body;
 
     
+})
+
+// Armazenar as informações do CEP em cache
+app.post("/cacheCEP", (req, res) => {
+    res.json("Cache dos CEPs");
 })
 
 // Rodando o servidor na porta apontada no .env
