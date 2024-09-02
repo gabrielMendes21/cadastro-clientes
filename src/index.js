@@ -17,7 +17,6 @@ app.get("/", (req, res) => {
 // Lidar com o envio do formulário
 app.post("/cadastrar", (req, res) => {
     const data = req.body;
-
     
 })
 
@@ -26,7 +25,12 @@ app.post("/cacheCEP", (req, res) => {
     res.json("Cache dos CEPs");
 })
 
-// Rodando o servidor na porta apontada no .env
+// Verificar se o CEP fornecido está em cache
+app.get("/cacheCEP", (req, res) => {
+    
+})
+
+// Rodando o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`)
 });
