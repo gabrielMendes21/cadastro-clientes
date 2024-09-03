@@ -15,7 +15,7 @@ conn();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Rotas
+// Rotas da API
 app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "index.html"));
 })
