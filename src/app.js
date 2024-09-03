@@ -9,10 +9,6 @@ const PORT = process.env.PORT || 3000;
 const CEPRoutes = require('./routes/CEPRoutes.js');
 const clienteRoutes = require('./routes/clienteRoutes.js');
 
-// Conexão com banco local
-const conn = require('./db/conn.js');
-conn();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
