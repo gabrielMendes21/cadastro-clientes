@@ -16,6 +16,26 @@ const clienteSchema = new Schema({
         type: String,
         required: true
     },
+    cep: {
+        type: String,
+        required: true
+    },
+    endereco: {
+        type: String,
+        required: true
+    },
+    numero: {
+        type: String,
+        required: true
+    },
+    bairro: {
+        type: String,
+        required: true
+    },
+    municipio: {
+        type: String,
+        required: true
+    }
 }, { timestamps: true });
 
 // Criação do model Cliente, baseado no schema criado

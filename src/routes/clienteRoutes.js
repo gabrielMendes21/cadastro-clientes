@@ -6,13 +6,22 @@ const Cliente = require('../models/Cliente.js');
 router.post("/cadastrar", async (req, res) => {
     try {
         const { 
-
+            nome,
+            idade,
+            sexo,
+            dadosCEP
          } = req.body;
     
         const newCliente = new Cliente({
-            nome: "Gabriel",
-            idade: 18,
-            sexo: "Masculino"
+            nome,
+            idade,
+            sexo,
+            cep: dadosCEP.cep,
+            endereco: dadosCEP.endereco,
+            bairro: dadosCEP.bairro,
+            municipio: dadosCEP.municipio,
+            numero: dadosCEP.numero,
+            uf: dadosCEP.uf
         })
 
         await newCliente.save();
@@ -26,90 +35,66 @@ router.post("/cadastrar", async (req, res) => {
     }
 })
 
-// app.post("/cadastrar", async (req, res) => {
-//     try {
-//         const {
-//             nome,
-//             telefone,
-//             origem,
-//             data_contato,
-//             observacao,
-//         } = req.body;
-
-//         const id = crypto.randomUUID();
-    
-//         const docRef = db.collection('agendamentos').doc(id);
-    
-//         await docRef.set({
-//             nome,
-//             telefone,
-//             origem,
-//             data_contato,
-//             observacao,
-//         });
-
-//         res.json("Agendamento cadastrado com sucesso");
-//     } catch(err) {
-//         res.status(500).json({
-//             msg: "Erro ao cadastrar agendamento",
-//             err
-//         });
-//     }
-// })
-
 router.get("/clientes", async (req, res) => {
-    const clientes = await Cliente.find();
-    res.json(clientes);
-    // const agendamentos = await db.collection('agendamentos').get();
-    // const data = [];
-
-    // agendamentos.forEach(ag => {
-    //     data.push({
-    //         id: ag.id,
-    //         ...ag.data()
-    //     })
-    // })
-
-    // res.render('consulta', {
-    //     data,
-    //     teste: "Gabriel Mendes"
-    // });
-})
-
-router.get("/editar/:id", async (req, res) => {
-    const agendamentos = await db.collection('agendamentos').get();
-    let agendamento = null;
-
-    agendamentos.forEach((ag) => {
-        if (ag.id === req.params.id) {
-            agendamento = {
-                id: ag.id,
-                ...ag.data()
-            };
-        }
-    });
-
-    res.render("editar", agendamento);
-})
-
-router.get("/excluir/:id", async (req, res) => {
-    const response = await db.collection('agendamentos').doc(req.params.id).delete();
-
-    res.redirect('/consulta');
-})
-
-router.post("/atualizar/:id", async (req, res) => {
     try {
-        const body = req.body;
-        
-        const agRef = db.collection('agendamentos').doc(req.params.id);
-        const response = await agRef.update({...body});
+        const startTime = process.hrtime();
+        const clientes = await Cliente.find();
+        const endTime = process.hrtime(startTime);
 
-        res.json("Sucesso");
+        console.log((endTime[0] * 1e9 + endTime[1]) / 1e9);
+
+        res.json(clientes);
     } catch(err) {
-        console.log(err)
-        res.status(500).json({
-            msg: "Erro ao editar agendamento",
+        res.json({
+            msg: "Erro ao consultar clientes",
+            err
+        })
+    }
+})
+
+router.put("/editar/:id", async (req, res) => {
+    try {
+        const { 
+            nome,
+            idade,
+            sexo,
+            dadosCEP
+         } = req.body;
+    
+        await Cliente.updateOne(
+            { _id: req.params.id },
+            {
+                $set: {
+                    nome,
+                    idade,
+                    sexo,
+                    cep: dadosCEP.cep,
+                    endereco: dadosCEP.endereco,
+                    bairro: dadosCEP.bairro,
+                    municipio: dadosCEP.municipio,
+                    numero: dadosCEP.numero,
+                    uf: dadosCEP.uf
+                }
+            }
+        )
+    
+        res.json("Cliente editado");
+    } catch(err) {
+        res.json({
+            msg: "Erro ao editar dados do cliente",
+            err
+        })
+    }
+})
+
+router.delete("/excluir/:id", async (req, res) => {
+    try {
+        await Cliente.deleteOne({ _id: req.params.id });
+
+        res.json('Cliente removido');
+    } catch(err) {
+        res.json({
+            msg: "Erro ao remover cliente",
             err
         })
     }
