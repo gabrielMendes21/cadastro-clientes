@@ -27,25 +27,22 @@
         const CEPInput = document.querySelector("#cep");
 
         // Fazer a requisição para o ViaCEP e armazenar a resposta no cache do servidor
-        CEPInput.addEventListener("change", async () => {
+        CEPInput.addEventListener("change", async (event) => {
             try {
-                // Obter os dados do CEP
-                const CEPRseponse = await fetch(`https://viacep.com.br/ws/${CEPInput.value}/json/`);
-                const CEPData = await CEPRseponse.json();
-
-                // Armazenar a resposta em cache
-                const cacheResponse = await fetch('./cacheCEP', {
+                // Requisição para obter os dados do CEP fornecido
+                const response = await fetch('./cacheCEP', {
                     method: 'POST',
-                    body: JSON.stringify({}),
+                    body: JSON.stringify({
+                        CEP: event.currentTarget.value
+                    }),
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
 
-                const cacheResponseData = await cacheResponse.json();
+                const CEPData = await response.json();
 
                 console.log(CEPData);
-                console.log(cacheResponseData);
             } catch(err) {
                 console.log(err);
             }
@@ -55,7 +52,7 @@
         form.addEventListener("submit", (event) => {
             event.preventDefault();
 
-            
+
             console.log("Formulário enviado");
         })
     </script>
