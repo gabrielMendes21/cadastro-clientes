@@ -41,6 +41,8 @@ async function buscaCep() {
         document.getElementById('bairro').value = result.data.bairro || '';
         document.getElementById('cidade').value = result.data.localidade || '';
         document.getElementById('logradouro').value = result.data.logradouro || '';
+
+        
     } catch (error) {
         document.getElementById('output').innerText = 'Erro ao buscar o CEP. Tente novamente.';
         console.error(error);
