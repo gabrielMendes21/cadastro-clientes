@@ -24,7 +24,15 @@ router.post("/cadastrar", async (req, res) => {
             uf: dadosCEP.uf
         })
 
+        const startTime = process.hrtime();
         await newCliente.save();
+        const endTime = process.hrtime(startTime);
+
+        // Tempo de execução em segundos
+        console.log(`Tempo de execução (cadastro): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}`);
+
+        // Tempo de execução em milissegundos
+        // console.log(`Tempo de execução (cadastro): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}`);
 
         res.json("Cadastrado");
     } catch(err) {
@@ -41,7 +49,11 @@ router.get("/clientes", async (req, res) => {
         const clientes = await Cliente.find();
         const endTime = process.hrtime(startTime);
 
-        console.log((endTime[0] * 1e9 + endTime[1]) / 1e9);
+        // Tempo de execução em segundos
+        console.log(`Tempo de execução (consulta): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}`);
+
+        // Tempo de execução em milissegundos
+        // console.log(`Tempo de execução (consulta): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}`);
 
         res.json(clientes);
     } catch(err) {
@@ -61,6 +73,7 @@ router.put("/editar/:id", async (req, res) => {
             dadosCEP
          } = req.body;
     
+        const startTime = process.hrtime();
         await Cliente.updateOne(
             { _id: req.params.id },
             {
@@ -77,6 +90,13 @@ router.put("/editar/:id", async (req, res) => {
                 }
             }
         )
+        const endTime = process.hrtime(startTime);
+
+        // Tempo de execução em segundos
+        console.log(`Tempo de execução (edição): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}`);
+
+        // Tempo de execução em milissegundos
+        // console.log(`Tempo de execução (edição): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}`);
     
         res.json("Cliente editado");
     } catch(err) {
@@ -89,7 +109,15 @@ router.put("/editar/:id", async (req, res) => {
 
 router.delete("/excluir/:id", async (req, res) => {
     try {
+        const startTime = process.hrtime();
         await Cliente.deleteOne({ _id: req.params.id });
+        const endTime = process.hrtime(startTime);
+
+        // Tempo de execução em segundos
+        console.log(`Tempo de execução (exclusão): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}`);
+
+        // Tempo de execução em milissegundos
+        // console.log(`Tempo de execução (exclusão): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}`);
 
         res.json('Cliente removido');
     } catch(err) {
