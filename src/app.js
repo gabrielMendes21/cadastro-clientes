@@ -5,8 +5,6 @@ const path = require("path");
 const express = require('express')
 const app = express();
 const PORT = process.env.PORT || 3000;
-const exphbs = require('express-handlebars');
-
 const CEPRoutes = require('./routes/CEPRoutes.js');
 const clienteRoutes = require('./routes/clienteRoutes.js');
 
