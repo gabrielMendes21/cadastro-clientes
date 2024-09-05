@@ -42,6 +42,11 @@ app.get('/', (req, res) => {
     res.render('index'); // Tenta renderizar a view 'index.ejs'
 });
 
+//rota de login
+app.get('/login', (req, res) => {
+    res.render('login'); 
+});
+
 // Rodando o servidor
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`)
