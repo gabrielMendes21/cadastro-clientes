@@ -11,16 +11,16 @@ const CEPRoutes = require('./routes/CEPRoutes.js');
 const clienteRoutes = require('./routes/clienteRoutes.js');
 
 
-//-handlebars
+// handlebars
 app.set('views', path.join(__dirname, 'views'));
 
-const handlebars = require("express-handlebars").engine
+const handlebars = require("express-handlebars").engine;
 
 app.engine("handlebars", handlebars({
     defaultLayout: "main"
-}))
+}));
 
-app.set("view engine", "handlebars")
+app.set("view engine", "handlebars");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,14 +28,6 @@ app.use(express.urlencoded({ extended: true }));
 // Rotas da API
 app.use(CEPRoutes);
 app.use(clienteRoutes);
-
-// // Configuração do motor de visualização Handlebars
-// app.engine('hbs', exphbs.engine({
-//     extname: '.hbs', // Define a extensão dos arquivos de visualização como .hbs
-//     runtimeOptions: {
-//         allowProtoPropertiesByDefault: true // Permite acesso a propriedades do protótipo no Handlebars
-//     }
-// }));// funcionou para listar clientes
 
 //rota page inicial
 app.get('/', (req, res) => {
