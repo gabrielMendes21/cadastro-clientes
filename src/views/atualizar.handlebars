@@ -5,8 +5,7 @@
     <div class="col-1">
         &nbsp;
     </div>
-    <h4>Editar - Agendamento de Potenciais Clientes</h4>
-    <p class="text-start fs-6">Sistema Utilizado para agendamento de serviços.</p>
+    <h4>Editar</h4>
 
     <form>
         <input type="hidden" class="form-control" id="id" name="id" value="{{_id}}">
@@ -89,8 +88,9 @@
 
 <script>
     // Enviar o formulário
-    form.addEventListener("submit", async (event) => {
+    document.querySelector('form').addEventListener("submit", async (event) => {
         event.preventDefault();
+
         // Coletando os dados do formulário
         const form = event.currentTarget;
         const formData = new FormData(form);
@@ -116,7 +116,7 @@
 
         try {
             // Enviando a requisição para a rota /editar
-            const response = await fetch(`editar/${data.id}`, {
+            const response = await fetch(`/editar/${data.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -125,13 +125,12 @@
             });
 
             if (response.ok) {
-                console.log("Editado com sucesso!");
                 const result = await response.json();
                 console.log(result);
+                location.replace("/consultar")
             } else {
                 console.error("Erro ao editar:", response.statusText);
             }
-            location.reload();
         } catch (error) {
             console.error("Erro na requisição:", error);
         }
