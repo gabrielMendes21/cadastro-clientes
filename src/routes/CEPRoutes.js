@@ -10,7 +10,7 @@ const cache = {};
 // ...
 
 // Armazenar as informações do CEP em cache
-router.post("/cacheCEP", async (req, res) => {
+router.post("/searchCEP", async (req, res) => {
     try {
         const { CEP } = req.body;
 
@@ -28,8 +28,6 @@ router.post("/cacheCEP", async (req, res) => {
 
             // Armazenamento dos dados do CEP em cache
             cache[CEP] = CEPData;
-
-            console.log(cache);
 
             res.json(CEPData);
         }

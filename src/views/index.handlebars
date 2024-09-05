@@ -90,7 +90,7 @@
     CEPInput.addEventListener("change", async (event) => {
         try {
           // Requisição para obter os dados do CEP fornecido
-          const response = await fetch('./cacheCEP', {
+          const response = await fetch('./searchCEP', {
             method: 'POST',
             body: JSON.stringify({
               CEP: event.currentTarget.value
