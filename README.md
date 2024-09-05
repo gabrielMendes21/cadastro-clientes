@@ -1,2 +1,2 @@
-Projeto utilizando o nodejs/handlebars e o firebase para armazenar dados e assim realizar o CRUD.
-"# cadastro-clientes" 
+# Cadastro de clientes
+Projeto feito com o objetivo de avaliar o desempenho entre dois bancos de dados (um relacional, e o outro não-relacional) e cacher informações de endereço no servidor.

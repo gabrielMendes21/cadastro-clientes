@@ -1,0 +1,101 @@
+<div class="container">
+    <br>
+    <h4>Listagem dos clientes cadastrados</h4>
+    
+    <div>
+        <form class="d-flex" role="search" onsubmit="search(event)">
+            <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" oninput="search()">
+        </form>
+        <div class="row">
+            &nbsp;
+        </div>
+    </div>
+
+    <div id="results" class="row">
+        {{#each clientes}}
+            <div class="col-sm-4 mb-3 ">
+                <div class="card">
+                    <div style="text-align: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="166" height="166" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{nome}}</h5>
+                        <div class="row">
+                            <div class="col">
+                                <p>Sexo: {{sexo}}</p>
+                            </div>
+                            <div class="col">
+                                <div>Idade: {{idade}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col">
+                                    <div>CEP: {{cep}}</div>
+                                </div>
+                                <div class="col">
+                                    <div>UF: {{uf}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p>Endereço: {{logradouro}} N°{{numero}}</p>
+                            <div>Bairro: {{bairro}}</div>
+                            <div>Cidade: {{cidade}}</div>
+                        </div>
+                        <a href="/editCliente/{{_id}}" class="btn btn-dark">Editar</a>
+                        <a onclick="excluirCliente('{{_id}}')" class="btn btn-danger">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}     
+    </div>
+</div>
+
+
+<script>
+    
+    function search(event) {
+        if (event) event.preventDefault(); // Evita o reload da página se for via submit
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const filteredResults = data.filter(item => item.nome.toLowerCase().includes(searchTerm));
+        displayResults(filteredResults);
+    }
+
+    
+    async function excluirCliente(id) {
+        if (confirm("Tem certeza de que deseja excluir este cliente?")) {
+            try {
+                const response = await fetch(`/excluir/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+            } catch (error) {
+                console.error('Erro ao remover cliente:', error);
+                alert('Erro ao remover cliente. Por favor, tente novamente.');
+            }
+        }
+    }
+
+    async function editarCliente(id) {
+        try {
+            const response = await fetch(`/editCliente/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+        } catch (error) {
+            console.error('Erro ao remover cliente:', error);
+            alert('Erro ao remover cliente. Por favor, tente novamente.');
+        }
+    }
+   
+</script>

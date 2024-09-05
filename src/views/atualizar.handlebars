@@ -1,0 +1,140 @@
+<div class="col-1">
+    &nbsp;
+</div>
+<div class="col bg-white">
+    <div class="col-1">
+        &nbsp;
+    </div>
+    <h4>Editar - Agendamento de Potenciais Clientes</h4>
+    <p class="text-start fs-6">Sistema Utilizado para agendamento de serviços.</p>
+
+    <form>
+        <input type="hidden" class="form-control" id="id" name="id" value="{{_id}}">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome: </label>
+            <input type="text" class="form-control" id="nome" name="nome" value="{{nome}}">
+        </div>
+    
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="idade" class="form-label">Idade: </label>
+                    <input type="text" class="form-control" id="idade" name="idade" value="{{idade}}">
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="mb-3">
+                    <label for="sexo" class="form-label">Sexo: </label>
+                    <select class="form-select" name="sexo" id="sexo">
+                        <option value="Feminino">Feminino</option>
+                        <option value="Masculino">Masculino</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="row">
+                <div class="col">
+                    <label for="cep" class="form-label">CEP: </label>
+                    <input type="text" class="form-control" id="cep" name="cep" value="{{cep}}">
+                </div>
+
+                <div class="col">
+                    <label for="uf" class="form-label">UF: </label>
+                    <input type="text" class="form-control" id="uf" name="uf" value="{{uf}}" readonly>
+                </div>
+            </div>     
+        </div>
+
+        <div class="mb-3">
+            <div class="row">
+                <div class="col">
+                    <label for="bairro" class="form-label">Bairro: </label>
+                    <input type="text" class="form-control" id="bairro"  name="bairro" value="{{bairro}}" readonly>
+                </div>
+
+                <div class="col">
+                    <label for="numero" class="form-label">Número: </label>
+                    <input type="text" class="form-control" id="numero" name="numero" value="{{numero}}">
+                </div>
+                
+
+                <div class="col">
+                    <label for="logradouro" class="form-label">Logradouro: </label>
+                    <input type="text" class="form-control" id="logradouro" name="logradouro" value="{{logradouro}}" readonly>
+                </div>
+            </div>     
+        </div>
+
+        <div class="mb-3">
+            <div class="row">
+                <div class="col">
+                    <label for="cidade" class="form-label">Cidade: </label>
+                    <input type="text" class="form-control" id="cidade" name="cidade" value="{{cidade}}" readonly>
+                </div>
+            </div>     
+        </div>
+
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-dark">Editar</button>
+        </div>
+  </form>
+</div>
+
+<div class="col-1">
+    &nbsp;
+</div>
+
+<script>
+    // Enviar o formulário
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        // Coletando os dados do formulário
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+
+        // Convertendo os dados para um objeto
+        const data = Object.fromEntries(formData.entries());
+
+        // Estruturando os dados no formato esperado pelo backend
+        const formattedData = {
+            id: data.id,
+            nome: data.nome,
+            idade: data.idade,
+            sexo: data.sexo,
+            dadosCEP: {
+                cep: data.cep || '',
+                uf: data.uf || '',
+                bairro: data.bairro || '',
+                numero: data.numero || '',
+                logradouro: data.logradouro || '',
+                cidade: data.cidade || ''
+            }
+        };
+
+        try {
+            // Enviando a requisição para a rota /editar
+            const response = await fetch(`editar/${data.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formattedData)
+            });
+
+            if (response.ok) {
+                console.log("Editado com sucesso!");
+                const result = await response.json();
+                console.log(result);
+            } else {
+                console.error("Erro ao editar:", response.statusText);
+            }
+            location.reload();
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+        }
+    }) 
+</script>
+
