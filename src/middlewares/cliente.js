@@ -32,10 +32,9 @@ const consultar = async (req, res) => {
             // Renderizar a página Handlebars com os dados dos clientes processados
             res.render("consultar", { clientes: processedClientes });
         } else if (dbtype == "mysql") {
-
-            //sem teste ainda
-            post.Cliente.findAll().then(function(post){
-                res.render("admin", {post}) 
+            Cliente.findAll().then((clientes) => {
+                clientes = clientes.map(c => c.dataValues);
+                res.render("consultar", { clientes }); 
             }).catch(function(erro){
                 console.log("Erro ao carregar dados do banco: " + erro);
                 res.status(500).send("Erro ao carregar dados do banco");
@@ -85,19 +84,18 @@ const cadastrar = async (req, res) => {
             res.json("Cadastrado");
         } else if (dbtype == "mysql") {
             /* sem teste ainda */
-            post.Cliente.create({
-                nome: req.body.nome_servico,
-                idade: req.body.idade,
-                sexo: req.body.sexo,
-                cep: req.body.cep,
-                uf: req.body.uf,
-                bairro: req.body.bairro,
-                numero: req.body.numero,
-                logradouro: req.body.logradouro,
-                cidade: req.body.cidade,
-            }).then(function(){
-                res.redirect("admin")
-                req.files.imagem.mv(__dirname+'/static/imgs/imgs_bnc/'+req.files.imagem.name);
+            Cliente.create({
+                nome,
+                idade,
+                sexo,
+                cep: dadosCEP.cep,
+                uf: dadosCEP.uf,
+                bairro: dadosCEP.bairro,
+                numero: dadosCEP.numero,
+                logradouro: dadosCEP.logradouro,
+                cidade: dadosCEP.cidade,
+            }).then(() => {
+                res.redirect("/clientes");
             }).catch(function(erro){
                 res.send("Falha ao cadastrar os dados: " + erro)
             })
@@ -135,10 +133,11 @@ const renderEditar = async (req, res) => {
             // Renderizar a página Handlebars com os dados do cliente processado
             res.render("atualizar", clienteEncontrado);
         } else if (dbtype == "mysql") {
-            /* sem teste ainda */
-            post.Cliente.findAll({where: {'id': req.params.id}}).then(function(post){
-                res.render("editarServico", {post})
-            }).catch(function(erro){
+            Cliente.findAll({where: {'id': req.params.id}})
+                .then(cliente => {
+                res.render("atualizar", cliente)
+            })
+            .catch(erro => {
                 console.log("Erro ao carregar dados do banco: " + erro)
             })
         }
@@ -189,19 +188,19 @@ const editar = async (req, res) => {
             res.json("Cliente editado");
         } else if (dbtype == "mysql") {
             /* sem teste ainda */
-            post.Cliente.update({
-                nome: req.body.nome_servico,
-                idade: req.body.idade,
-                sexo: req.body.sexo,
-                cep: req.body.cep,
-                uf: req.body.uf,
-                bairro: req.body.bairro,
-                numero: req.body.numero,
-                logradouro: req.body.logradouro,
-                cidade: req.body.cidade,
+            Cliente.update({
+                nome,
+                idade,
+                sexo,
+                cep: dadosCEP.cep,
+                uf: dadosCEP.uf,
+                bairro: dadosCEP.bairro,
+                numero: dadosCEP.numero,
+                logradouro: dadosCEP.logradouro,
+                cidade: dadosCEP.cidade,
             },{
                 where: {
-                    id: req.body.id
+                    id: req.params.id
                 }
             }).then(function(){
                 // Redirecionar após mover o arquivo

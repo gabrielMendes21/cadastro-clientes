@@ -1,8 +1,4 @@
-const conn = require('../db/conn.js');
-
-const createMySqlCliente = async () => {
-    const { db, sequelize } = await conn();
-
+const createMySqlCliente = (db, sequelize) => {
     if (db && sequelize) {
         const Cliente = db.define('clientes', {
             nome:{
@@ -39,7 +35,5 @@ const createMySqlCliente = async () => {
         return Cliente;
     }
 }
-
-
 
 module.exports = createMySqlCliente;

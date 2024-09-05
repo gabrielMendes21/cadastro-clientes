@@ -1,4 +1,5 @@
 const express  = require('express');
+const axios = require('axios');
 const router = express.Router();
 
 // Cache para os CEPs
@@ -23,8 +24,8 @@ router.post("/cacheCEP", async (req, res) => {
             console.log(cache);
             res.json(cachedCEP);
         } else {
-            const response = await fetch(`https://viacep.com.br/ws/${CEP}/json/`);
-            const CEPData = await response.json();
+            const response = await axios(`https://viacep.com.br/ws/${CEP}/json/`);
+            const CEPData = await response.data;
 
             // Armazenamento dos dados do CEP em cache
             cache[CEP] = CEPData;
