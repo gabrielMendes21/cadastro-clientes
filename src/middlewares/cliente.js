@@ -3,6 +3,9 @@ const dbtype = process.env.DBTYPE;
 
 let Cliente;
 
+//bd sql
+
+
 // Conexão com banco de dados
 conn()
     .then(response => {
@@ -29,7 +32,9 @@ const consultar = async (req, res) => {
             // Renderizar a página Handlebars com os dados dos clientes processados
             res.render("consultar", { clientes: processedClientes });
         } else if (dbtype == "mysql") {
-            /* TODO */ 
+
+            //sem teste ainda
+            
         }
     } catch(err) {
         res.json({
@@ -74,7 +79,8 @@ const cadastrar = async (req, res) => {
     
             res.json("Cadastrado");
         } else if (dbtype == "mysql") {
-            /* TODO */
+            /* sem teste ainda */
+            
         }
     } catch(err) {
         console.log({
@@ -109,7 +115,8 @@ const renderEditar = async (req, res) => {
             // Renderizar a página Handlebars com os dados do cliente processado
             res.render("atualizar", clienteEncontrado);
         } else if (dbtype == "mysql") {
-            /* TODO */
+            /* sem teste ainda */
+            
         }
     } catch(err) {
         res.json({
@@ -157,7 +164,8 @@ const editar = async (req, res) => {
         
             res.json("Cliente editado");
         } else if (dbtype == "mysql") {
-            /* TODO */
+            /* sem teste ainda */
+            
         }
     } catch(err) {
         res.json({
@@ -182,7 +190,7 @@ const excluir = async(req, res) => {
 
             res.json('Cliente removido');
         } else if (dbtype == "mysql") {
-            /* TODO */
+            
         }
     } catch(err) {
         res.json({
