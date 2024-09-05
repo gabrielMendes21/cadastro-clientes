@@ -4,7 +4,7 @@ const dbtype = process.env.DBTYPE;
 let Cliente;
 
 //bd sql
-
+const post = require("../models/mysqlCliente.js")
 
 // Conexão com banco de dados
 conn()
@@ -34,7 +34,12 @@ const consultar = async (req, res) => {
         } else if (dbtype == "mysql") {
 
             //sem teste ainda
-            
+            post.Cliente.findAll().then(function(post){
+                res.render("admin", {post}) 
+            }).catch(function(erro){
+                console.log("Erro ao carregar dados do banco: " + erro);
+                res.status(500).send("Erro ao carregar dados do banco");
+            });
         }
     } catch(err) {
         res.json({
@@ -80,7 +85,22 @@ const cadastrar = async (req, res) => {
             res.json("Cadastrado");
         } else if (dbtype == "mysql") {
             /* sem teste ainda */
-            
+            post.Cliente.create({
+                nome: req.body.nome_servico,
+                idade: req.body.idade,
+                sexo: req.body.sexo,
+                cep: req.body.cep,
+                uf: req.body.uf,
+                bairro: req.body.bairro,
+                numero: req.body.numero,
+                logradouro: req.body.logradouro,
+                cidade: req.body.cidade,
+            }).then(function(){
+                res.redirect("admin")
+                req.files.imagem.mv(__dirname+'/static/imgs/imgs_bnc/'+req.files.imagem.name);
+            }).catch(function(erro){
+                res.send("Falha ao cadastrar os dados: " + erro)
+            })
         }
     } catch(err) {
         console.log({
@@ -116,7 +136,11 @@ const renderEditar = async (req, res) => {
             res.render("atualizar", clienteEncontrado);
         } else if (dbtype == "mysql") {
             /* sem teste ainda */
-            
+            post.Cliente.findAll({where: {'id': req.params.id}}).then(function(post){
+                res.render("editarServico", {post})
+            }).catch(function(erro){
+                console.log("Erro ao carregar dados do banco: " + erro)
+            })
         }
     } catch(err) {
         res.json({
@@ -165,6 +189,27 @@ const editar = async (req, res) => {
             res.json("Cliente editado");
         } else if (dbtype == "mysql") {
             /* sem teste ainda */
+            post.Cliente.update({
+                nome: req.body.nome_servico,
+                idade: req.body.idade,
+                sexo: req.body.sexo,
+                cep: req.body.cep,
+                uf: req.body.uf,
+                bairro: req.body.bairro,
+                numero: req.body.numero,
+                logradouro: req.body.logradouro,
+                cidade: req.body.cidade,
+            },{
+                where: {
+                    id: req.body.id
+                }
+            }).then(function(){
+                // Redirecionar após mover o arquivo
+                res.redirect("/admin");
+            }).catch(function(erro){
+                console.error("Erro ao atualizar serviço:", erro);
+                res.status(500).send("Erro ao atualizar serviço");
+            });
             
         }
     } catch(err) {
@@ -190,7 +235,12 @@ const excluir = async(req, res) => {
 
             res.json('Cliente removido');
         } else if (dbtype == "mysql") {
-            
+            //sem teste
+            post.Cliente.destroy({where: {'id': req.params.id}}).then(function(){
+                res.redirect("/admin")
+            }).catch(function(erro){
+                console.log("Erro ao excluir ou encontrar os dados do banco: " + erro)
+            })
         }
     } catch(err) {
         res.json({

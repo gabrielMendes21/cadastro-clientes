@@ -26,10 +26,10 @@ const createMySqlCliente = async () => {
             numero:{
                 type: sequelize.STRING
             },
-            endereco:{
+            logradouro:{
                 type: sequelize.STRING
             },
-            municipio:{
+            cidade:{
                 type: sequelize.STRING
             }
         });
@@ -39,5 +39,7 @@ const createMySqlCliente = async () => {
         return Cliente;
     }
 }
+
+
 
 module.exports = createMySqlCliente;
