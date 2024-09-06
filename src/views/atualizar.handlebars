@@ -8,7 +8,11 @@
     <h4>Editar</h4>
 
     <form>
-        <input type="hidden" class="form-control" id="id" name="id" value="{{_id}}">
+        {{#if _id}}
+            <input type="hidden" class="form-control" id="id" name="id" value="{{_id}}">
+        {{else}}
+            <input type="hidden" class="form-control" id="id" name="id" value="{{id}}">
+        {{/if}}
         <div class="mb-3">
             <label for="nome" class="form-label">Nome: </label>
             <input type="text" class="form-control" id="nome" name="nome" value="{{nome}}">
@@ -87,6 +91,45 @@
 </div>
 
 <script>
+    const CEPInput = document.querySelector("#cep");
+
+    // Fazer a requisição para o ViaCEP e armazenar a resposta no cache do servidor
+    CEPInput.addEventListener("change", async (event) => {
+        try {
+          // Requisição para obter os dados do CEP fornecido
+          const response = await fetch('/cacheCEP', {
+            method: 'POST',
+            body: JSON.stringify({
+              CEP: event.currentTarget.value
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+
+          const CEPData = await response.json();
+
+          console.log(CEPData);
+          preencher(CEPData);           
+        } catch(err) {
+          console.log(err);
+        }
+    })
+
+    function preencher(CEPData) {           
+      try {
+        document.getElementById('uf').value = CEPData.uf || '';
+        document.getElementById('bairro').value = CEPData.bairro || '';
+        document.getElementById('cidade').value = CEPData.localidade || '';
+        document.getElementById('logradouro').value = CEPData.logradouro || '';
+
+          
+      } catch (error) {
+        document.getElementById('output').innerText = 'Erro ao buscar o CEP. Tente novamente.';
+        console.error(error);
+      }
+    }
+
     // Enviar o formulário
     document.querySelector('form').addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -127,7 +170,7 @@
             if (response.ok) {
                 const result = await response.json();
                 console.log(result);
-                location.replace("/consultar")
+                location.replace("/clientes");
             } else {
                 console.error("Erro ao editar:", response.statusText);
             }

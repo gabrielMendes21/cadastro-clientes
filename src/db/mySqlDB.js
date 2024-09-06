@@ -5,6 +5,8 @@ const conn = () => {
         host: "localhost",
         dialect: "mysql"
     })
+
+    console.log("Conectado ao banco mysql");
     
     return {
         sequelize,

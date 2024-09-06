@@ -4,7 +4,7 @@ const dbtype = process.env.DBTYPE;
 let Cliente;
 
 //bd sql
-
+const post = require("../models/mysqlCliente.js")
 
 // Conexão com banco de dados
 conn()
@@ -32,9 +32,13 @@ const consultar = async (req, res) => {
             // Renderizar a página Handlebars com os dados dos clientes processados
             res.render("consultar", { clientes: processedClientes });
         } else if (dbtype == "mysql") {
-
-            //sem teste ainda
-            
+            Cliente.findAll().then((clientes) => {
+                clientes = clientes.map(c => c.dataValues);
+                res.render("consultar", { clientes }); 
+            }).catch(function(erro){
+                console.log("Erro ao carregar dados do banco: " + erro);
+                res.status(500).send("Erro ao carregar dados do banco");
+            });
         }
     } catch(err) {
         res.json({
@@ -79,8 +83,21 @@ const cadastrar = async (req, res) => {
     
             res.json("Cadastrado");
         } else if (dbtype == "mysql") {
-            /* sem teste ainda */
-            
+            Cliente.create({
+                nome,
+                idade,
+                sexo,
+                cep: dadosCEP.cep,
+                uf: dadosCEP.uf,
+                bairro: dadosCEP.bairro,
+                numero: dadosCEP.numero,
+                logradouro: dadosCEP.logradouro,
+                cidade: dadosCEP.cidade,
+            }).then(() => {
+                res.json("Cadastrado");
+            }).catch(function(erro) {
+                console.log(erro); 
+            })
         }
     } catch(err) {
         console.log({
@@ -115,8 +132,14 @@ const renderEditar = async (req, res) => {
             // Renderizar a página Handlebars com os dados do cliente processado
             res.render("atualizar", clienteEncontrado);
         } else if (dbtype == "mysql") {
-            /* sem teste ainda */
-            
+            Cliente.findByPk(req.params.id)
+                .then(cliente => {
+                    res.render("atualizar", cliente.dataValues);
+                }
+            )
+            .catch(erro => {
+                console.log("Erro ao carregar dados do banco: " + erro)
+            })
         }
     } catch(err) {
         res.json({
@@ -164,7 +187,26 @@ const editar = async (req, res) => {
         
             res.json("Cliente editado");
         } else if (dbtype == "mysql") {
-            /* sem teste ainda */
+            Cliente.update({
+                nome,
+                idade,
+                sexo,
+                cep: dadosCEP.cep,
+                uf: dadosCEP.uf,
+                bairro: dadosCEP.bairro,
+                numero: dadosCEP.numero,
+                logradouro: dadosCEP.logradouro,
+                cidade: dadosCEP.cidade,
+            },{
+                where: {
+                    id: req.params.id
+                }
+            }).then(() => {
+                res.json("Cliente editado");
+            }).catch(function(erro){
+                console.error("Erro ao atualizar serviço:", erro);
+                res.status(500).send("Erro ao atualizar serviço");
+            });
             
         }
     } catch(err) {
@@ -190,7 +232,11 @@ const excluir = async(req, res) => {
 
             res.json('Cliente removido');
         } else if (dbtype == "mysql") {
-            
+            Cliente.destroy({where: {'id': req.params.id}}).then(() => {
+                res.json("Cliente removido");
+            }).catch(function(erro){
+                console.log("Erro ao excluir ou encontrar os dados do banco: " + erro)
+            })
         }
     } catch(err) {
         res.json({

@@ -1,8 +1,4 @@
-const conn = require('../db/conn.js');
-
-const createMySqlCliente = async () => {
-    const { db, sequelize } = await conn();
-
+const createMySqlCliente = (db, sequelize) => {
     if (db && sequelize) {
         const Cliente = db.define('clientes', {
             nome:{
@@ -26,10 +22,10 @@ const createMySqlCliente = async () => {
             numero:{
                 type: sequelize.STRING
             },
-            endereco:{
+            logradouro:{
                 type: sequelize.STRING
             },
-            municipio:{
+            cidade:{
                 type: sequelize.STRING
             }
         });

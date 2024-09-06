@@ -1,8 +1,9 @@
 const mongoConn = require('./mongoDB.js');
-
-const createMySqlCliente = require('../models/mysqlCliente.js');
 const createMongoCliente = require('../models/mongoCliente.js');
+
 const mySqlConn = require('./mySqlDB.js');
+const createMySqlCliente = require('../models/mysqlCliente.js');
+
 require('dotenv').config();
 
 const conn = async () => {
@@ -14,8 +15,8 @@ const conn = async () => {
             const mongoCliente = createMongoCliente();
             return mongoCliente;
         case 'mysql':
-            mySqlConn();
-            const mySqlCliente = await createMySqlCliente();
+            const { db, sequelize } = mySqlConn();
+            const mySqlCliente = createMySqlCliente(db, sequelize);
             return mySqlCliente;
         default: 
             console.log("Banco de dados inválido");
