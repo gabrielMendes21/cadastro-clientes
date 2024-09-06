@@ -21,10 +21,10 @@ const consultar = async (req, res) => {
             const endTime = process.hrtime(startTime);
 
             // Tempo de execução em segundos
-            console.log(`Tempo de execução (consulta): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
+            // console.log(`Tempo de execução (consulta ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
 
             // Tempo de execução em milissegundos
-            // console.log(`Tempo de execução (consulta): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
+            console.log(`Tempo de execução (consulta ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
 
             // Converter documentos para objetos simples
             const processedClientes = clientes.map(cliente => cliente.toObject());
@@ -32,13 +32,18 @@ const consultar = async (req, res) => {
             // Renderizar a página Handlebars com os dados dos clientes processados
             res.render("consultar", { clientes: processedClientes });
         } else if (dbtype == "mysql") {
-            Cliente.findAll().then((clientes) => {
-                clientes = clientes.map(c => c.dataValues);
-                res.render("consultar", { clientes }); 
-            }).catch(function(erro){
-                console.log("Erro ao carregar dados do banco: " + erro);
-                res.status(500).send("Erro ao carregar dados do banco");
-            });
+            const startTime = process.hrtime();
+            const clientesResponse = await Cliente.findAll();
+            const endTime = process.hrtime(startTime);
+
+            const clientes = clientesResponse.map(c => c.dataValues);
+
+            // Tempo de execução em segundos
+            // console.log(`Tempo de execução (consulta ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
+
+            // Tempo de execução em milissegundos
+            console.log(`Tempo de execução (consulta ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
+            res.render("consultar", { clientes }); 
         }
     } catch(err) {
         res.json({
@@ -58,7 +63,6 @@ const cadastrar = async (req, res) => {
         } = req.body;
 
         if (dbtype == "mongodb") {
-        
             const newCliente = new Cliente({
                 nome,
                 idade,
@@ -76,14 +80,15 @@ const cadastrar = async (req, res) => {
             const endTime = process.hrtime(startTime);
     
             // // Tempo de execução em segundos
-            console.log(`Tempo de execução (cadastro): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
+            // console.log(`Tempo de execução (cadastro ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
     
             // Tempo de execução em milissegundos
-            // console.log(`Tempo de execução (cadastro): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
+            console.log(`Tempo de execução (cadastro ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
     
             res.json("Cadastrado");
         } else if (dbtype == "mysql") {
-            Cliente.create({
+            const startTime = process.hrtime();
+            await Cliente.create({
                 nome,
                 idade,
                 sexo,
@@ -93,11 +98,16 @@ const cadastrar = async (req, res) => {
                 numero: dadosCEP.numero,
                 logradouro: dadosCEP.logradouro,
                 cidade: dadosCEP.cidade,
-            }).then(() => {
-                res.json("Cadastrado");
-            }).catch(function(erro) {
-                console.log(erro); 
-            })
+            });
+            const endTime = process.hrtime(startTime);
+
+            // // Tempo de execução em segundos
+            // console.log(`Tempo de execução (cadastro ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
+    
+            // Tempo de execução em milissegundos
+            console.log(`Tempo de execução (cadastro ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
+
+            res.json('Cadastrado');
         }
     } catch(err) {
         console.log({
@@ -110,17 +120,7 @@ const cadastrar = async (req, res) => {
 const renderEditar = async (req, res) => {
     try {
         if (dbtype == "mongodb") {
-            const startTime = process.hrtime();
             const clienteEspecifico = await Cliente.findById(req.params.id);
-            const endTime = process.hrtime(startTime);
-
-            // Tempo de execução em segundos
-            console.log(`Tempo de execução (consulta): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
-
-            // Tempo de execução em milissegundos
-            // console.log(`Tempo de execução (consulta): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
-
-
             // Verificar se o cliente foi encontrado
             if (!clienteEspecifico) {
                 return res.status(404).send("Cliente não encontrado");
@@ -132,14 +132,8 @@ const renderEditar = async (req, res) => {
             // Renderizar a página Handlebars com os dados do cliente processado
             res.render("atualizar", clienteEncontrado);
         } else if (dbtype == "mysql") {
-            Cliente.findByPk(req.params.id)
-                .then(cliente => {
-                    res.render("atualizar", cliente.dataValues);
-                }
-            )
-            .catch(erro => {
-                console.log("Erro ao carregar dados do banco: " + erro)
-            })
+            const cliente = await Cliente.findByPk(req.params.id);
+            res.render('atualizar', cliente.dataValues);
         }
     } catch(err) {
         res.json({
@@ -159,7 +153,6 @@ const editar = async (req, res) => {
         } = req.body;
 
         if (dbtype == "mongodb") {
-            
             const startTime = process.hrtime();
             await Cliente.updateOne(
                 { _id: req.params.id },
@@ -180,14 +173,15 @@ const editar = async (req, res) => {
             const endTime = process.hrtime(startTime);
     
             // Tempo de execução em segundos
-            console.log(`Tempo de execução (edição): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
+            // console.log(`Tempo de execução (edição ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
     
             // Tempo de execução em milissegundos
-            // console.log(`Tempo de execução (edição): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
+            console.log(`Tempo de execução (edição ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
         
             res.json("Cliente editado");
         } else if (dbtype == "mysql") {
-            Cliente.update({
+            const startTime = process.hrtime();
+            await Cliente.update({
                 nome,
                 idade,
                 sexo,
@@ -197,16 +191,20 @@ const editar = async (req, res) => {
                 numero: dadosCEP.numero,
                 logradouro: dadosCEP.logradouro,
                 cidade: dadosCEP.cidade,
-            },{
+            }, {
                 where: {
                     id: req.params.id
                 }
-            }).then(() => {
-                res.json("Cliente editado");
-            }).catch(function(erro){
-                console.error("Erro ao atualizar serviço:", erro);
-                res.status(500).send("Erro ao atualizar serviço");
-            });
+            })
+            const endTime = process.hrtime(startTime);
+
+            // Tempo de execução em segundos
+            // console.log(`Tempo de execução (edição ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
+    
+            // Tempo de execução em milissegundos
+            console.log(`Tempo de execução (edição ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e6}ms`);
+
+            res.json("Cliente editado");
             
         }
     } catch(err) {
@@ -225,18 +223,24 @@ const excluir = async(req, res) => {
             const endTime = process.hrtime(startTime);
 
             // Tempo de execução em segundos
-            console.log(`Tempo de execução (exclusão): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
+            // console.log(`Tempo de execução (exclusão ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
 
             // Tempo de execução em milissegundos
-            // console.log(`Tempo de execução (exclusão): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}ms`);
+            console.log(`Tempo de execução (exclusão ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}ms`);
 
             res.json('Cliente removido');
         } else if (dbtype == "mysql") {
-            Cliente.destroy({where: {'id': req.params.id}}).then(() => {
-                res.json("Cliente removido");
-            }).catch(function(erro){
-                console.log("Erro ao excluir ou encontrar os dados do banco: " + erro)
-            })
+            const startTime = process.hrtime();
+            await Cliente.destroy({where: {'id': req.params.id}})
+            const endTime = process.hrtime(startTime);
+
+            // Tempo de execução em segundos
+            // console.log(`Tempo de execução (exclusão ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}s`);
+
+            // Tempo de execução em milissegundos
+            console.log(`Tempo de execução (exclusão ${dbtype}): ${(endTime[0] * 1e9 + endTime[1]) / 1e9}ms`);
+
+            res.json("Cliente removido");
         }
     } catch(err) {
         res.json({
