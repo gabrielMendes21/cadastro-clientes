@@ -110,7 +110,7 @@
           const CEPData = await response.json();
 
           console.log(CEPData);
-          preencher(CEPData);           
+          preencher(CEPData.cep);           
         } catch(err) {
           console.log(err);
         }

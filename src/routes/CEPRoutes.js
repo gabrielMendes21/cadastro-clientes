@@ -22,7 +22,7 @@ router.post("/cacheCEP", async (req, res) => {
         // é feita para a API o ViaCEP para a obtenção do novo CEP
         if (cachedCEP) {
             console.log(cache);
-            res.json(cachedCEP);
+            res.json({ cep: cachedCEP, cached: true});
         } else {
             const response = await axios(`https://viacep.com.br/ws/${CEP.trim()}/json/`);
             const CEPData = await response.data;
@@ -30,7 +30,7 @@ router.post("/cacheCEP", async (req, res) => {
             // Armazenamento dos dados do CEP em cache
             cache[CEP] = CEPData;
 
-            res.json(CEPData);
+            res.json({ cep: CEPData, cached: false});
         }
     } catch(err) {
         console.log({

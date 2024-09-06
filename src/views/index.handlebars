@@ -102,7 +102,9 @@
 
           const CEPData = await response.json();
 
-          preencher(CEPData);           
+          console.log(CEPData);
+
+          preencher(CEPData.cep);           
         } catch(err) {
           console.log(err);
         }
