@@ -4,27 +4,27 @@
 <div class="col bg-white">
 
   <br>
-  <h4>cadastrar</h4>
+  <h4>Cadastrar</h4>
   <p>Sistema utilizado para cadastrar clientes.</p>
 
   <form>
     <div class="mb-3">
       <label for="nome" class="form-label">Nome: </label>
-      <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp">
+      <input type="text" class="form-control" id="nome" name="nome" aria-describedby="emailHelp" required>
     </div>
     
     <div class="row">
       <div class="col">
         <div class="mb-3">
           <label for="idade" class="form-label">Idade: </label>
-          <input type="text" class="form-control" id="idade" name="idade" aria-describedby="emailHelp">
+          <input type="text" class="form-control" id="idade" name="idade" aria-describedby="emailHelp" required>
         </div>
       </div>
 
       <div class="col">
         <div class="mb-3">
           <label for="sexo" class="form-label">Sexo: </label>
-          <select class="form-select" name="sexo" id="sexo">
+          <select class="form-select" name="sexo" id="sexo" required>
             <option value="Feminino">Feminino</option>
             <option value="Masculino">Masculino</option>
           </select>
@@ -36,12 +36,12 @@
       <div class="row">
         <div class="col">
           <label for="cep" class="form-label">CEP: </label>
-          <input type="text" class="form-control" id="cep" name="cep" aria-describedby="emailHelp">
+          <input type="text" class="form-control" id="cep" name="cep" required>
         </div>
 
         <div class="col">
           <label for="uf" class="form-label">UF: </label>
-          <input type="text" class="form-control" id="uf" name="uf" aria-describedby="emailHelp" readonly>
+          <input type="text" class="form-control" id="uf" name="uf" readonly>
         </div>
       </div>     
     </div>
@@ -50,18 +50,18 @@
       <div class="row">
         <div class="col">
           <label for="bairro" class="form-label">Bairro: </label>
-          <input type="text" class="form-control" id="bairro"  name="bairro" aria-describedby="emailHelp" readonly>
+          <input type="text" class="form-control" id="bairro"  name="bairro" readonly>
         </div>
 
         <div class="col">
           <label for="numero" class="form-label">Número: </label>
-          <input type="text" class="form-control" id="numero" name="numero" aria-describedby="emailHelp">
+          <input type="text" class="form-control" id="numero" name="numero" required>
         </div>
         
 
         <div class="col">
           <label for="logradouro" class="form-label">Logradouro: </label>
-          <input type="text" class="form-control" id="logradouro" name="logradouro" aria-describedby="emailHelp" readonly>
+          <input type="text" class="form-control" id="logradouro" name="logradouro" readonly>
         </div>
       </div>     
     </div>
@@ -70,7 +70,7 @@
       <div class="row">
         <div class="col">
           <label for="cidade" class="form-label">Cidade: </label>
-          <input type="text" class="form-control" id="cidade" name="cidade" aria-describedby="emailHelp" readonly>
+          <input type="text" class="form-control" id="cidade" name="cidade" readonly>
         </div>
       </div>     
     </div>
@@ -102,7 +102,6 @@
 
           const CEPData = await response.json();
 
-          //console.log(CEPData);
           preencher(CEPData);           
         } catch(err) {
           console.log(err);
@@ -116,8 +115,6 @@
         document.getElementById('bairro').value = CEPData.bairro || '';
         document.getElementById('cidade').value = CEPData.localidade || '';
         document.getElementById('logradouro').value = CEPData.logradouro || '';
-
-          
       } catch (error) {
         document.getElementById('output').innerText = 'Erro ao buscar o CEP. Tente novamente.';
         console.error(error);
@@ -159,13 +156,8 @@
           body: JSON.stringify(formattedData)
         });
 
-        if (response.ok) {
-          console.log("Cadastrado com sucesso!");
-          const result = await response.json();
-          console.log(result);
-        } else {
-          console.error("Erro ao cadastrar:", response.statusText);
-        }
+        const data = await response.json();
+        location.replace('/clientes');
       } catch (error) {
         console.error("Erro na requisição:", error);
       }

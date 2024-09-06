@@ -83,7 +83,6 @@ const cadastrar = async (req, res) => {
     
             res.json("Cadastrado");
         } else if (dbtype == "mysql") {
-            /* sem teste ainda */
             Cliente.create({
                 nome,
                 idade,
@@ -95,9 +94,9 @@ const cadastrar = async (req, res) => {
                 logradouro: dadosCEP.logradouro,
                 cidade: dadosCEP.cidade,
             }).then(() => {
-                res.redirect("/clientes");
-            }).catch(function(erro){
-                res.send("Falha ao cadastrar os dados: " + erro)
+                res.json("Cadastrado");
+            }).catch(function(erro) {
+                console.log(erro); 
             })
         }
     } catch(err) {
@@ -133,10 +132,11 @@ const renderEditar = async (req, res) => {
             // Renderizar a página Handlebars com os dados do cliente processado
             res.render("atualizar", clienteEncontrado);
         } else if (dbtype == "mysql") {
-            Cliente.findAll({where: {'id': req.params.id}})
+            Cliente.findByPk(req.params.id)
                 .then(cliente => {
-                res.render("atualizar", cliente)
-            })
+                    res.render("atualizar", cliente.dataValues);
+                }
+            )
             .catch(erro => {
                 console.log("Erro ao carregar dados do banco: " + erro)
             })
@@ -187,7 +187,6 @@ const editar = async (req, res) => {
         
             res.json("Cliente editado");
         } else if (dbtype == "mysql") {
-            /* sem teste ainda */
             Cliente.update({
                 nome,
                 idade,
@@ -202,9 +201,8 @@ const editar = async (req, res) => {
                 where: {
                     id: req.params.id
                 }
-            }).then(function(){
-                // Redirecionar após mover o arquivo
-                res.redirect("/admin");
+            }).then(() => {
+                res.json("Cliente editado");
             }).catch(function(erro){
                 console.error("Erro ao atualizar serviço:", erro);
                 res.status(500).send("Erro ao atualizar serviço");
@@ -234,9 +232,8 @@ const excluir = async(req, res) => {
 
             res.json('Cliente removido');
         } else if (dbtype == "mysql") {
-            //sem teste
-            post.Cliente.destroy({where: {'id': req.params.id}}).then(function(){
-                res.redirect("/admin")
+            Cliente.destroy({where: {'id': req.params.id}}).then(() => {
+                res.json("Cliente removido");
             }).catch(function(erro){
                 console.log("Erro ao excluir ou encontrar os dados do banco: " + erro)
             })

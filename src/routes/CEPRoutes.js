@@ -24,13 +24,11 @@ router.post("/cacheCEP", async (req, res) => {
             console.log(cache);
             res.json(cachedCEP);
         } else {
-            const response = await axios(`https://viacep.com.br/ws/${CEP}/json/`);
+            const response = await axios(`https://viacep.com.br/ws/${CEP.trim()}/json/`);
             const CEPData = await response.data;
 
             // Armazenamento dos dados do CEP em cache
             cache[CEP] = CEPData;
-
-            console.log(cache);
 
             res.json(CEPData);
         }
